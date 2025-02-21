@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .cart {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+            border-radius: 8px;
+        }
+        .cart-item-info {
+            flex-grow: 1;
+        }
+        .cart-item-info h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .cart-item-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .cart-item-info .price {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+        .cart-item-info .stock {
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cart">
+        <h1>Carrito de Compras</h1>
+        <div id="cart-items"></div>
+        <button id="checkout-button">Pagar</button>
+    </div>
+
+    <script>
+        let cartItems = [];
+        let orderId = localStorage.getItem("orderId");
+        const apiUrl = `http://localhost:3001/v1/api/payment/get-order-products/${orderId}`;
+        const paymentUrl = `http://localhost:3001/v1/api/payment/create-payment-intent`;
+
+        async function fetchProductData() {
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                });
+                if (!response.ok) {
+                    throw new Error('Error al obtener los datos del producto');
+                }
+                const productData = await response.json();
+
+                cartItems.push({
+                    name: productData.name,
+                    description: productData.description,
+                    price: productData.price,
+                    quantity: 1,
+                });
+
+                displayProductInCart(productData);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function displayProductInCart(product) {
+            const cartItems = document.getElementById('cart-items');
+
+            const cartItem = document.createElement('div');
+            cartItem.classList.add('cart-item');
+
+            const productImage = document.createElement('img');
+            productImage.src = product.image;
+            productImage.alt = product.name;
+
+            const productInfo = document.createElement('div');
+            productInfo.classList.add('cart-item-info');
+
+            const productName = document.createElement('h3');
+            productName.textContent = product.name;
+
+            const productDescription = document.createElement('p');
+            productDescription.textContent = product.description;
+
+            const productPrice = document.createElement('p');
+            productPrice.classList.add('price');
+            productPrice.textContent = `$${product.price.toFixed(2)}`;
+
+            const productStock = document.createElement('p');
+            productStock.classList.add('stock');
+            productStock.textContent = `Stock: ${product.stock}`;
+
+            productInfo.appendChild(productName);
+            productInfo.appendChild(productDescription);
+            productInfo.appendChild(productPrice);
+            productInfo.appendChild(productStock);
+
+            cartItem.appendChild(productImage);
+            cartItem.appendChild(productInfo);
+
+            cartItems.appendChild(cartItem);
+        }
+
+        async function handlePayment() {
+            try {
+                const response = await fetch(paymentUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ cartItems }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al procesar el pago');
+                }
+
+                const data = await response.json();
+
+                window.location.href = data.url;
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Hubo un error al procesar el pago');
+            }
+        }
+
+        fetchProductData();
+        document.getElementById('checkout-button').addEventListener('click', handlePayment);
+    </script>
+
+</body>
+</html>
