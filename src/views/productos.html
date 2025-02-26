@@ -91,7 +91,7 @@
                 container.innerHTML = ""; // Limpiar contenedor de productos
 
                 try {
-                    const response = await fetch(`http://localhost:3001/v1/api/products?search=${encodeURIComponent(query)}`, {
+                    const response = await fetch(`http://localhost:3001/v1/api/get-products`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json"
@@ -106,15 +106,19 @@
 
                     products.forEach(product => {
                         const card = document.createElement("div");
+                        let imagen = product.image;
+                        if (imagen == "") {
+                            imagen = "../img/Image-not-found.png";
+                        }
                         card.classList.add("col-md-4");
                         card.innerHTML = `
                             <div class="card product-card">
-                                <img src="${product.imagen}" class="product-img" alt="${product.nombre}">
+                                <img src="${imagen}" class="product-img" alt="${product.name}">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title">${product.nombre}</h5>
-                                    <p class="card-text">$${product.precio}</p>
+                                    <h5 class="card-title">${product.name}</h5>
+                                    <p class="card-text">$${product.price}</p>
                                     <input type="number" id="cantidad-${product.id}" class="form-control mb-2" placeholder="Cantidad" min="1" value="1">
-                                    <button class="btn btn-primary" onclick="confirmarAgregarAlCarrito(${product.id}, '${product.nombre}', ${product.precio})">Agregar al Carrito</button>
+                                    <button class="btn btn-primary" onclick="confirmarAgregarAlCarrito(${product.id}, '${product.name}', ${product.price})">Agregar al Carrito</button>
                                 </div>
                             </div>
                         `;
