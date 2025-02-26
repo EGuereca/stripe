@@ -12,7 +12,7 @@ interface OrderDetailAttributes {
     updatedAt: Date;
 }
 
-interface OrderDetailCreationAttributes extends Optional<OrderDetailAttributes, "id"> {}
+interface OrderDetailCreationAttributes extends Optional<OrderDetailAttributes, "id"> { }
 
 const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USERNAME!, process.env.DB_PASSWORD!, {
     dialect: 'mysql',
@@ -35,7 +35,7 @@ OrderDetail.init(
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-          },
+        },
         order_id: {
             type: DataTypes.INTEGER,
             allowNull: false,

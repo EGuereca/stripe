@@ -10,7 +10,7 @@ interface ProductAttributes {
     image: string;
 }
 
-interface ProductCreationAttributes extends Optional<ProductAttributes, "id"> {}
+interface ProductCreationAttributes extends Optional<ProductAttributes, "id"> { }
 
 class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
     public id!: number;
@@ -21,7 +21,7 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> implem
     public image!: string;
 }
 
-const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USER!, process.env.DB_PASSWORD!, {
+const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USERNAME!, process.env.DB_PASSWORD!, {
     dialect: 'mysql',
     host: process.env.DB_HOST,
 });
@@ -58,7 +58,7 @@ Product.init(
         sequelize,
         tableName: 'products',
     }
-); 
+);
 
 Product.sync();
 export default Product;

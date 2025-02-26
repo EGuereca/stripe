@@ -1,24 +1,10 @@
 {
     "development": {
         "username": "root",
-        "password": "",
+        "password": "123",
         "host": "localhost",
         "port": 3306,
         "database": "stripe",
-        "dialect": "mysql"
-    },
-    "test": {
-        "username": "root",
-        "password": "",
-        "database": "stripe",
-        "host": "localhost",
-        "dialect": "mysql"
-    },
-    "production": {
-        "username": "root",
-        "password": "",
-        "database": "stripe",
-        "host": "localhost",
         "dialect": "mysql"
     }
 }

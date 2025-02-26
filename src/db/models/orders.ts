@@ -12,7 +12,7 @@ interface OrderAttributes {
     updatedAt?: Date;
 }
 
-interface OrderCreationAttributes extends Optional<OrderAttributes, "id"> {}
+interface OrderCreationAttributes extends Optional<OrderAttributes, "id"> { }
 
 class Order extends Model<OrderAttributes, OrderCreationAttributes> implements OrderAttributes {
     public id!: number;
@@ -46,7 +46,7 @@ Order.init({
         allowNull: false,
     },
 }, {
-    sequelize,  
+    sequelize,
     tableName: 'orders',
     timestamps: true,
 });

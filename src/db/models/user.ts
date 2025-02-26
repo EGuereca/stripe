@@ -10,7 +10,7 @@ interface UserAttributes {
     updatedAt: Date;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+interface UserCreationAttributes extends Optional<UserAttributes, "id"> { }
 
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
     public id!: number;
@@ -21,7 +21,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
     public updatedAt!: Date;
 }
 
-const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USER!, process.env.DB_PASSWORD!, {
+const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USERNAME!, process.env.DB_PASSWORD!, {
     dialect: 'mysql',
     host: process.env.DB_HOST,
 });
@@ -58,7 +58,7 @@ User.init({
 }, {
     sequelize,
     tableName: 'users',
-    timestamps: true, 
+    timestamps: true,
 });
 
 User.sync();
@@ -66,7 +66,7 @@ User.sync();
 export default User;
 
 
-    
-    
+
+
 
 
