@@ -75,6 +75,7 @@ routes.get("/get-products", ProductController.getAllProducts);
 routes.post("/login", login as RequestHandler);
 
 routes.post("/get-order-products/:orderId", OrderController.getOrderProducts as RequestHandler);
+
 routes.post("/create-order-detail", OrderController.createOrderDetail as RequestHandler);
 routes.post("/orders/details", OrderController.createOrderDetail as RequestHandler);
 routes.get("/orders/get-order-id/:userId", OrderController.getOrderId as RequestHandler);
