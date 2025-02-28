@@ -60,9 +60,11 @@
                     body: JSON.stringify(userData)
                 });
 
+                const data = await response.json();
 
                 if (response.ok) {
                     alert('Usuario registrado correctamente');
+                    window.location.href = './Login.html';
                 } else {
                     document.getElementById('registerError').textContent = data.message || 'Hubo un error al registrar al usuario';
                     document.getElementById('registerError').style.display = 'block';

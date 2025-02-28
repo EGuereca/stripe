@@ -31,8 +31,6 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use(express.json());
 app.use(cors());
 
-
-
 app.use('/v1/api', routes);
 
 app.listen(PORT, () => {

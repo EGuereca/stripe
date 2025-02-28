@@ -72,7 +72,8 @@ routes.get("/get-products", ProductController.getAllProducts);
  *       200:
  *         description: Usuario autenticado exitosamente
  */
-routes.post("/login", login as RequestHandler);
+routes.post("/login", login as unknown as RequestHandler);
+routes.post("/register", register as unknown as RequestHandler);
 
 routes.post("/get-order-products/:orderId", OrderController.getOrderProducts as RequestHandler);
 
