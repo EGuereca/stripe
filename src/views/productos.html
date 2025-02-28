@@ -132,7 +132,6 @@
             window.confirmarAgregarAlCarrito = function (id, nombre, cantidad) {
                 if (confirm(`¿Deseas agregar ${cantidad} de ${nombre} al carrito?`)) {
                     agregarAlCarrito(id, cantidad);
-                    location.reload();
                 }
             }
 
@@ -144,8 +143,8 @@
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            order_id: orderId, 
-                            product_id: id,
+                            orderId: orderId, 
+                            productId: id,
                             quantity: cantidad
                         })
                     });
