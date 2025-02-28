@@ -117,8 +117,8 @@
                                 <div class="card-body text-center">
                                     <h5 class="card-title">${product.name}</h5>
                                     <p class="card-text">$${product.price}</p>
-                                    <input type="number" id="cantidad-${product.id}" class="form-control mb-2" placeholder="Cantidad" min="1" value="1">
-                                    <button class="btn btn-primary" onclick="confirmarAgregarAlCarrito(${product.id}, '${product.name}', ${product.price})">Agregar al Carrito</button>
+                                    <input type="number" id="cantidad-${product.id}" class="form-control mb-2" placeholder="Cantidad" min="1" value="1" max="1">
+                                    <button class="btn btn-primary" onclick="confirmarAgregarAlCarrito(${product.id}, '${product.name}', 1)">Agregar al Carrito</button>
                                 </div>
                             </div>
                         `;
@@ -129,15 +129,14 @@
                 }
             }
 
-            window.confirmarAgregarAlCarrito = function (id, nombre, precio) {
-                const cantidad = document.getElementById(`cantidad-${id}`).value;
+            window.confirmarAgregarAlCarrito = function (id, nombre, cantidad) {
                 if (confirm(`¿Deseas agregar ${cantidad} de ${nombre} al carrito?`)) {
-                    agregarAlCarrito(id, nombre, precio, cantidad);
+                    agregarAlCarrito(id, cantidad);
                     location.reload();
                 }
             }
 
-            window.agregarAlCarrito = async function (id, nombre, precio, cantidad) {
+            async function agregarAlCarrito(id, cantidad) {
                 try {
                     const response = await fetch("http://localhost:3001/v1/api/create-order-detail", {
                         method: "POST",
