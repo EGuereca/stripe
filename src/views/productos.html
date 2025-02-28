@@ -88,7 +88,7 @@
             });
 
             async function fetchProducts(query = "") {
-                container.innerHTML = ""; // Limpiar contenedor de productos
+                container.innerHTML = ""; 
 
                 try {
                     const response = await fetch(`http://localhost:3001/v1/api/get-products`, {
@@ -133,16 +133,16 @@
                 const cantidad = document.getElementById(`cantidad-${id}`).value;
                 if (confirm(`¿Deseas agregar ${cantidad} de ${nombre} al carrito?`)) {
                     agregarAlCarrito(id, nombre, precio, cantidad);
+                    location.reload();
                 }
             }
 
             window.agregarAlCarrito = async function (id, nombre, precio, cantidad) {
                 try {
-                    const response = await fetch("http://localhost:3001/v1/api/orders/details", {
+                    const response = await fetch("http://localhost:3001/v1/api/create-order-detail", {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": "Bearer " + localStorage.getItem("token")
+                            "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
                             order_id: orderId, 
