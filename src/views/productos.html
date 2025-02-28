@@ -75,11 +75,12 @@
     </div>
 
     <script>
+        let orderId = localStorage.getItem("orderId");
+
         document.addEventListener("DOMContentLoaded", function () {
             const container = document.getElementById("products-container");
             const form = document.getElementById("search-form");
             const queryInput = document.getElementById("search-query");
-            let orderId = localStorage.getItem("orderId");
 
             form.addEventListener("submit", async function (event) {
                 event.preventDefault();
@@ -129,38 +130,38 @@
                 }
             }
 
-            window.confirmarAgregarAlCarrito = function (id, nombre, cantidad) {
-                if (confirm(`¿Deseas agregar ${cantidad} de ${nombre} al carrito?`)) {
-                    agregarAlCarrito(id, cantidad, nombre);
-                }
-            }
-
-            async function agregarAlCarrito(id, cantidad, nombre) {
-                try {
-                    const response = await fetch("http://localhost:3001/v1/api/create-order-detail", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            orderId: orderId, 
-                            productId: id,
-                            quantity: cantidad
-                        })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error("Error al agregar el producto al carrito");
-                    }
-
-                    alert(`${cantidad} de ${nombre} ha sido agregado al carrito.`);
-                } catch (error) {
-                    console.error("Error al agregar el producto al carrito:", error);
-                }
-            }
-
             fetchProducts();
         });
+
+        window.confirmarAgregarAlCarrito = function (id, nombre, cantidad) {
+            if (confirm(`¿Deseas agregar ${cantidad} de ${nombre} al carrito?`)) {
+                agregarAlCarrito(id, cantidad, nombre);
+            }
+        }
+
+        async function agregarAlCarrito(id, cantidad, nombre) {
+            try {
+                const response = await fetch("http://localhost:3001/v1/api/create-order-detail", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        orderId: orderId, 
+                        productId: id,
+                        quantity: cantidad
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Error al agregar el producto al carrito");
+                }
+
+                alert(`${cantidad} de ${nombre} ha sido agregado al carrito.`);
+            } catch (error) {
+                console.error("Error al agregar el producto al carrito:", error);
+            }
+        }
     </script>
 </body>
 
