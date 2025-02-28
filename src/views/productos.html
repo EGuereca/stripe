@@ -131,11 +131,11 @@
 
             window.confirmarAgregarAlCarrito = function (id, nombre, cantidad) {
                 if (confirm(`¿Deseas agregar ${cantidad} de ${nombre} al carrito?`)) {
-                    agregarAlCarrito(id, cantidad);
+                    agregarAlCarrito(id, cantidad, nombre);
                 }
             }
 
-            async function agregarAlCarrito(id, cantidad) {
+            async function agregarAlCarrito(id, cantidad, nombre) {
                 try {
                     const response = await fetch("http://localhost:3001/v1/api/create-order-detail", {
                         method: "POST",
